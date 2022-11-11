@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using System.Threading;
-namespace checkWorkHW
+namespace HomeWorkHelper
 {
     class Program
     {
