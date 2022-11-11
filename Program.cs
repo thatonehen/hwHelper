@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Threading;
 namespace checkWorkHW
@@ -54,7 +54,7 @@ namespace checkWorkHW
             int thoughtAnswer;
             int num1;
             int num2;
-            bool logs = false;
+            bool logs = true;
             int i = 0;
             bool response = false;
             bool invResponse = false;
@@ -128,8 +128,8 @@ namespace checkWorkHW
             
             try
             {
-                num1 = Convert.ToInt32(firstNum);
-                num2 = Convert.ToInt32(secondNum);
+                num1 = (int)Convert.ToInt64(firstNum);
+                num2 = (int)Convert.ToInt64(secondNum);
                 
             }
             catch (Exception e)
@@ -137,28 +137,24 @@ namespace checkWorkHW
                 if (logs)
                 {
                     Console.WriteLine("Error detected, saved to logs.");
-                    if (!File.Exists(pathString))
+                    File.WriteAllText(fileName, e.Message);
+                    for (int d = 5; d > 0; d--)
                     {
-                        using (FileStream fs = System.IO.File.Create(pathString))
-                        {
-                            File.AppendAllText(fileName, e.Message);
-                        }
+                        Console.WriteLine("Closing in " + d.ToString() + " seconds.");
+                        Thread.Sleep(1000);
                     }
-                    else
-                    {
-                        File.AppendAllText(fileName, e.Message);
-                    }
-                    Console.WriteLine("Closing in 5 seconds.");
-                    Thread.Sleep(5000);
                     Environment.Exit(0);
-                }
-                else
+                }  else
                 {
                     Console.WriteLine("Error detected, closing in 5 seconds.");
-                    Thread.Sleep(5000);
+                    for (int g = 5; g > 0; g--)
+                    {
+                        Console.WriteLine("Closing in " + g.ToString() + " seconds.");
+                        Thread.Sleep(1000);
+                    }
                     Environment.Exit(0);
                 }
-                
+
             }
             if (!devMode)
             {
@@ -168,31 +164,21 @@ namespace checkWorkHW
             {
                 Console.WriteLine("Skipped waiting time due to dev mode.");
             }
-            num1 = Convert.ToInt32(firstNum);
-            num2 = Convert.ToInt32(secondNum);
+            num1 = (int)Convert.ToInt64(firstNum);
+            num2 = (int)Convert.ToInt64(secondNum);
             int ans = functions.Solve(num1, num2, op);
             Console.WriteLine("Enter the answer you THINK the problem is:");
             string ethoughtAnswer = Console.ReadLine();
             try
             {
-                thoughtAnswer = Convert.ToInt32(ethoughtAnswer);
+                thoughtAnswer = (int)Convert.ToInt64(ethoughtAnswer);
             }
             catch (Exception e)
             {
                 if (logs)
                 {
-                    Console.WriteLine("Error detected, saved to logs.");
-                    if (!File.Exists(pathString))
-                    {
-                        using (FileStream fs = System.IO.File.Create(pathString))
-                        {
-                            File.AppendAllText(fileName, e.Message);
-                        }
-                    }
-                    else
-                    {
-                        File.AppendAllText(fileName, e.Message);
-                    }
+                    Console.WriteLine("Error detected, saved to logs."); 
+                    File.WriteAllText(fileName, e.Message);
                     Console.WriteLine("Closing in 5 seconds.");
                     Thread.Sleep(5000);
                     Environment.Exit(0);
@@ -205,7 +191,7 @@ namespace checkWorkHW
                 }
 
             }
-            thoughtAnswer = Convert.ToInt32(ethoughtAnswer);
+            thoughtAnswer = (int)Convert.ToInt64(ethoughtAnswer);
             if (thoughtAnswer == ans)
             {
                 Console.WriteLine("Correct!");
